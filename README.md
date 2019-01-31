@@ -39,3 +39,7 @@ And use some sql server client like [teamsql](https://teamsql.io/download?os=osx
 
 - user: `SA`
 - password: `abcd1234`
+
+![connection](./images/connection.png)
+
+![database](./images/databases.png)
