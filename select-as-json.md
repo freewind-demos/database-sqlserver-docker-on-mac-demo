@@ -70,3 +70,15 @@ select users.id, users.name as 'aaa.bbb' from users for json path, root('user')
     }]
 }
 ```
+
+## openjson
+
+```
+select * from openjson('{"aa":"11"}')
+```
+
+```
+\# | key | value | type
+--- | --- | --- | ---
+1 | aa | 11 | 1
+```
