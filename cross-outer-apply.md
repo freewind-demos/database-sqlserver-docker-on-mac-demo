@@ -66,3 +66,34 @@ cross apply
 select users.*, x.address from users 
 cross apply (select address + address as 'address'  from profiles where users.id = profiles.user_id) x
 ```
+
+## cross apply with for json
+
+```
+select * from users cross apply (select * from profiles for json path) p(profiles)
+```
+
+其中，`p(profiles)`表示表名为`p`，第一个字段名为`profiles`。
+如果没有指定，则会报错。
+
+```
+\# | id | name | profiles
+--- | --- | --- | ---
+1 | 1 | sql | \[\{"user\_id":1\,"address":"sql address"\}\,\{"user\_id":2\,"address":"java address"\}\]
+2 | 2 | java | \[\{"user\_id":1\,"address":"sql address"\}\,\{"user\_id":2\,"address":"java address"\}\]
+3 | 3 | javascript | \[\{"user\_id":1\,"address":"sql address"\}\,\{"user\_id":2\,"address":"java address"\}\]
+```
+
+## outer apply with dummy table
+
+```
+with dummy(dummy) as (select 1)
+select 'a' as 'a' from dummy 
+outer apply (select * from profiles for json path) p(p1)
+```
+
+```
+\# | a
+--- | ---
+1 | a
+```
