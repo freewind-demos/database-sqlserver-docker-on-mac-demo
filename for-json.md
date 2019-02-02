@@ -82,3 +82,41 @@ select * from openjson('{"aa":"11"}')
 --- | --- | --- | ---
 1 | aa | 11 | 1
 ```
+
+## multi level json
+
+```
+select 
+(   select 
+    (select users.* from users for json path) a,
+    (select users.* from users for json path) b
+    for json path
+) as c
+```
+
+```
+[{
+    "c": [{
+        "a": [{
+            "id": 1,
+            "name": "sql"
+        }, {
+            "id": 2,
+            "name": "java"
+        }, {
+            "id": 3,
+            "name": "javascript"
+        }],
+        "b": [{
+            "id": 1,
+            "name": "sql"
+        }, {
+            "id": 2,
+            "name": "java"
+        }, {
+            "id": 3,
+            "name": "javascript"
+        }]
+    }]
+}]
+```
